@@ -2,6 +2,14 @@
 {% extends 'html/base.html' %}
 {% block title %}Login{% endblock %}
 {% block content %}
+{% if messages %}
+  {% for j in messages %}
+  <div class="alert alert-{{j.tags}} alert-dismissible">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  {{j}}
+</div>
+  {% endfor %}
+{% endif %}
 <!-- Background image -->
 <div class="bg-image" 
      style="background-image: url('https://i.pinimg.com/originals/af/8d/63/af8d63a477078732b79ff9d9fc60873f.jpg');

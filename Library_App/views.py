@@ -10,11 +10,27 @@ import sys
 from time import gmtime, strftime
 from datetime import date
 from django.core import mail
+from django.contrib.auth import authenticate,login
 from django.core.mail import send_mail
 from django.core.mail import EmailMessage
 from django.http import HttpResponse
 
 
+def Login_user(request):
+	if request.method=='POST':
+		username=request.POST.get('username')
+		password=request.POST.get('password')
+
+		user=authenticate(request,username=username,password=password)
+
+		if not user:
+			messages.add_message(request,messages.WARNING,'invalid Credentials')
+			return render(request,'html/login.html')
+		else:
+			login(request,user)
+			messages.add_message(request,messages.SUCCESS,f'Welcome {user.username}')
+			return redirect('/')
+	return render(request,'html/login.html')
 
 # Create your views here.
 def home(rq):
@@ -294,13 +310,14 @@ def return_accept(rq,id):
 
 def requestform(request):
 	if request.method=="POST":
-		
+		u=request.POST.get('uname')
 		e=request.POST.get('email')
 		ut=request.POST.get('utype')
 		ud=request.POST.get('uid')
 		ms=request.POST.get('msg')
+		t=request.POST.get('t')
 		f=request.FILES['fe']
-		a="Hi welcome" "Your Requested Dept."  +ut
+		a="Hi welcome:"+u+ " , " "Your Dept:"  +ut+ " , " "You ID is : " +ud+ " , " "Your requested role is : " +t 
 		t = EmailMessage("UserRole Change",a,settings.EMAIL_HOST_USER,[settings.ADMINS[0][1],e])
 	
 		t.attach(f.name,f.read(),f.content_type)

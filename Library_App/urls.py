@@ -10,7 +10,8 @@ urlpatterns = [
     path('Books/',views.Books,name='Books'),
     path('abt/',views.about,name="at"),
     path('cnt/',views.contact,name="ct"),
-    path('lg/',ad.LoginView.as_view(template_name='html/login.html'),name="log"),
+     path('lg/',views.Login_user,name="log"),
+   
     path('rg/',views.regi,name="rg"),
     path('ds/',views.dashboard,name="dsh"),
     path('lgo/',ad.LogoutView.as_view(template_name='html/logout.html'),name="logo"),
